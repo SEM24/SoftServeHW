@@ -8,7 +8,7 @@
 🔭 List of HW:  
   
 
-- ⚡ HW1: If/else/case 27.09.2022 ✅  
+- ⚡ HW1: If/else/case 27.09.2022 ✅  [a link](https://github.com/SEM24/SoftServeHW/tree/master/src/com/khomsi/softServe/lesson1)
   
 
 - ⚡ HW2: Loop(for, while, foreach) ❌  
