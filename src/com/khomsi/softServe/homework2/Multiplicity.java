@@ -19,20 +19,20 @@ public class Multiplicity {
 
         System.out.println("\n\nSolution 2");
         Scanner scanner = new Scanner(System.in);
-        int min1 = getInput(scanner);
-        int max1 = getInput(scanner);
-        calculate1(min1, max1);
+        min = getInput(scanner);
+        max = getInput(scanner);
+        calculate1(min, max);
     }
 
     private void calculate(int min, int max) {
-        System.out.println("\nDisplay all multiples of 3 in the range from 10 to 50: ");
+        System.out.println("\nDisplay all multiples of 3 in the range from " + min + " to " + max);
         for (; min <= max; min++) {
             if (min % 3 == 0) System.out.print(min + " ");
         }
     }
 
     private void calculate1(int min, int max) {
-        System.out.println("\nDisplay all multiples of 3 in the range from 10 to 50: ");
+        System.out.println("\nDisplay all multiples of 3 in the range from " + min + " to " + max);
         while (min <= max) {
             if (min % 3 == 0) System.out.print(min + " ");
             min++;
