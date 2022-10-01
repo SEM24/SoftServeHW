@@ -11,10 +11,10 @@
 - ⚡ HW1: If/else/case 27.09.2022 ✅  [LINK TO THE FOLDER](https://github.com/SEM24/SoftServeHW/tree/master/src/com/khomsi/softServe/lesson1)
   
 
-- ⚡ HW2: Loop(for, while, foreach) ❌  
+- ⚡ HW2: Loop(for, while, foreach) ✅  [LINK TO THE FOLDER](https://github.com/SEM24/SoftServeHW/tree/master/src/com/khomsi/softServe/lesson2)
   
 
-- ⚡ HW3: Massives❓  
+- ⚡ HW3: Massives/Arrays❓  
   
 
 <br/>  
