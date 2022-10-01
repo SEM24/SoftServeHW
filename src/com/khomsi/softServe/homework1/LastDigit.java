@@ -2,7 +2,7 @@
  * Author: SEM
  */
 
-package com.khomsi.softServe.lesson1;
+package com.khomsi.softServe.homework1;
 
 import java.util.Scanner;
 
