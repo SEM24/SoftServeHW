@@ -14,23 +14,23 @@ public class QuadraticEquation {
 
 
     private void run() {
-        double a = 0, b = 0, c = 0;
         System.out.println("Calculate quadratic equation" +
                 "\nExample: ax^2 + bx + c = 0");
-        getInput(a, b, c);
+        getInput();
     }
 
     /*
         Method that receive input values and shows output message.
      */
-    private void getInput(double a, double b, double c) {
+    private void getInput() {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Print a: ");
-            a = scanner.nextDouble();
+            double a = scanner.nextDouble();
             System.out.print("Print b: ");
-            b = scanner.nextDouble();
+            double b = scanner.nextDouble();
             System.out.print("Print c: ");
-            c = scanner.nextDouble();
+            double c = scanner.nextDouble();
+
             double discriminant = discriminant(a, b, c);
             System.out.println(calculateRoots(discriminant, a, b));
 
