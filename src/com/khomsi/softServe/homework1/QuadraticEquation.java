@@ -12,11 +12,18 @@ public class QuadraticEquation {
         new QuadraticEquation().run();
     }
 
-    /*
-        This method receive input values and shows output message.
-     */
+
     private void run() {
-        double a, b, c;
+        double a = 0, b = 0, c = 0;
+        System.out.println("Calculate quadratic equation" +
+                "\nExample: ax^2 + bx + c = 0");
+        getInput(a, b, c);
+    }
+
+    /*
+        Method that receive input values and shows output message.
+     */
+    private void getInput(double a, double b, double c) {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Print a: ");
             a = scanner.nextDouble();
@@ -24,36 +31,37 @@ public class QuadraticEquation {
             b = scanner.nextDouble();
             System.out.print("Print c: ");
             c = scanner.nextDouble();
-            double D = 0, x = 0, x1 = 0, x2 = 0;
-            calculateQuadratic(D, a, b, c, x, x1, x2);
+            double discriminant = discriminant(a, b, c);
+            System.out.println(calculateRoots(discriminant, a, b));
 
         } catch (InputMismatchException e) {
             // One of the inputs was not a double
             System.err.println("Input value is not a number.");
         }
-
     }
 
     /*
-       This method calculates typical quadratic equation with the discriminant formula.
+       Method that calculates typical quadratic equation with the discriminant formula.
      */
-    private void calculateQuadratic(double D, double a, double b, double c,
-                                    double x, double x1, double x2) {
+    private String calculateRoots(double discriminant, double a, double b) {
         try {
-            D = (Math.pow(b, 2) - 4 * a * c);
             DecimalFormat df = new DecimalFormat("###.###");
-            if (D == 0) {
-                x = -b / (2 * a);
-                System.out.println("The equation has two equal roots: " + df.format(x));
-            } else if (D > 0) {
-                x1 = (-b + Math.sqrt(D)) / (2 * a);
-                x2 = (-b - Math.sqrt(D)) / (2 * a);
-                System.out.println("The equation has two different roots: "
-                        + df.format(x1) + " , " + df.format(x2));
-            } else System.out.println("The equation has no real roots");
+            double x1, x2;
+            if (discriminant == 0) {
+                x1 = -b / (2 * a);
+                return "The equation has two equal roots: " + df.format(x1);
+            } else if (discriminant > 0) {
+                x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                return "The equation has two different roots: "
+                        + df.format(x1) + " , " + df.format(x2);
+            } else return "The equation has no real roots";
         } catch (ArithmeticException e) {
-            System.err.println(e.getCause().getMessage());
+            return e.getCause().getMessage();
         }
+    }
 
+    private double discriminant(double a, double b, double c) {
+        return (Math.pow(b, 2) - 4 * a * c);
     }
 }
