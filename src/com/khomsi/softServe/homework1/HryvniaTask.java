@@ -24,7 +24,7 @@ public class HryvniaTask {
         String[] ending = {"ня", "ні", "ень"};
         if (value == 1)
             System.out.println("Your input money is: " + value + (currency.concat(ending[0])));
-        else if (value == 2 || value == 3 || value == 4)
+        else if (value > 1 && value < 5)
             System.out.println("Your input money is: " + value + (currency.concat(ending[1])));
         else
             System.out.println("Your input money is: " + value + (currency.concat(ending[2])));
@@ -40,8 +40,9 @@ public class HryvniaTask {
         }
     }
 
+    //Same, but for big nums as well
     private void solutionThree(Scanner in) {
-        System.out.println("\nEnter the number of hryvnia: ");
+        System.out.print("\nEnter the number of hryvnia(any of number): ");
         String value = Integer.toString(in.nextInt());
         char result = value.charAt(value.length() - 1);
         if (result == '1')
