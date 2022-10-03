@@ -14,19 +14,11 @@ public class PrimeNum {
     private void run() {
         Scanner scanner = new Scanner(System.in);
         int num = getInput(scanner);
-        solutionOne(num);
+
         System.out.println(solutionTwo(num) ? num + " is a prime number."
                 : num + " is not a prime number.");
     }
 
-    private void solutionOne(int num) {
-        if (num == 3 || num == 2) System.out.println(num + " is a prime number.");
-        else {
-            if (num % 2 != 0 && num % 5 != 0 && num % 3 != 0 && num % 7 != 0) {
-                System.out.println(num + " is a prime number.");
-            } else System.out.println(num + " is not a prime number.");
-        }
-    }
 
     private boolean solutionTwo(int n) {
         //check if n is a multiple of 2
