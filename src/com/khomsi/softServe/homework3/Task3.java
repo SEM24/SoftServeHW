@@ -13,7 +13,7 @@ public class Task3 {
 
     private void run() {
         int[] array1 = new int[]{1, 2, 3, 4, 5};
-        int[] array2 = new int[]{6, 7};
+        int[] array2 = new int[]{5, 6, 7};
         printArr(firstSolution(array1, array2));
         secondSolution(array1, array2);
     }
@@ -38,7 +38,7 @@ public class Task3 {
 
     private void printArr(int[] arr) {
         for (int j : arr) {
-            System.out.print(j);
+            System.out.print(j + " ");
         }
     }
 }
