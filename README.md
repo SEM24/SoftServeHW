@@ -14,7 +14,7 @@
 - ⚡ HW2: Loop(for, while, foreach) ✅  [LINK TO THE FOLDER](https://github.com/SEM24/SoftServeHW/tree/master/src/com/khomsi/softServe/homework2)
   
 
-- ⚡ HW3: Massives/Arrays❓  
+- ⚡ HW3: Massives/Arrays✅  [LINK TO THE FOLDER](https://github.com/SEM24/SoftServeHW/tree/master/src/com/khomsi/softServe/homework3)
   
 
 <br/>  
