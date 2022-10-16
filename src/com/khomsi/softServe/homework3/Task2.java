@@ -13,24 +13,11 @@ public class Task2 {
         int[] arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
         printArr(secondSolution(arr));
-//        printArr(firstSolution(arr));
         System.out.println("\n");
         printArr(thirdSolution(arr));
 
     }
 
-//    private int[] firstSolution(int[] arr) {
-//        int size = arr.length;
-//        int step = arr.length - 1;
-//        int temp;
-//        for (int i = 0, j; i < step; ++i) {
-//            temp = arr[0];
-//            for (j = 0; j < size - 1; ++j)
-//                arr[j] = arr[j + 1];
-//            arr[j] = temp;
-//        }
-//        return arr;
-//    }
 
     private int[] thirdSolution(int[] arr) {
         if (arr.length > 1) {
