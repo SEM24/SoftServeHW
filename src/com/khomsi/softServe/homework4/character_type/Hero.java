@@ -4,11 +4,23 @@
 
 package com.khomsi.softServe.homework4.character_type;
 
-public abstract class Hero {
+import java.util.List;
+
+public abstract class Hero implements Mortal {
     String name;
+    int health;
 
     protected Hero(String name) {
         this.name = name;
+        this.health = 400;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public String getName() {
@@ -16,5 +28,14 @@ public abstract class Hero {
     }
 
     public abstract void attackEnemy(Enemy enemy);
+
+    public abstract void attackEnemies(List<Enemy> enemy, Hero hero);
+
+    public abstract void takeDamage(int damage);
+
+    @Override
+    public boolean isAlive() {
+        return getHealth() > 0;
+    }
 
 }

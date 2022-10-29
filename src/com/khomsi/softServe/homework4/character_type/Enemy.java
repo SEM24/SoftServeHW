@@ -4,7 +4,7 @@
 
 package com.khomsi.softServe.homework4.character_type;
 
-public class Enemy implements Mortal {
+public abstract class Enemy implements Mortal {
     int health;
 
     public Enemy(int health) {
@@ -19,10 +19,9 @@ public class Enemy implements Mortal {
         this.health = health;
     }
 
-    public void takeDamage(int damage) {
-        setHealth(health - damage);
-        System.out.println(getHealth() <= 0 ? "Enemy hp: 0" : "Enemy hp: " + getHealth());
-    }
+    public abstract void takeDamage(int damage);
+
+    public abstract void attackHero(Hero hero);
 
     @Override
     public boolean isAlive() {
