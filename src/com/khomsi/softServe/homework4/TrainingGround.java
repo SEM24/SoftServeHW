@@ -15,9 +15,9 @@ public class TrainingGround {
     }
 
     private void runBattle() {
-        Warrior warrior = new Warrior("Bob");
-        Archer archer = new Archer("Dima");
-        Mage mage = new Mage("Vlad");
+        Warrior warrior = new Warrior("Bob", 300);
+        Archer archer = new Archer("Dima", 200);
+        Mage mage = new Mage("Vlad", 160);
         Zombie zombie = new Zombie(100);
 
         warrior.attackEnemy(zombie);

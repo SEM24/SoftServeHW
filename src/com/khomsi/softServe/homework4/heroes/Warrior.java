@@ -4,6 +4,7 @@
 
 package com.khomsi.softServe.homework4.heroes;
 
+import com.khomsi.softServe.homework4.Tools;
 import com.khomsi.softServe.homework4.character_type.Enemy;
 import com.khomsi.softServe.homework4.character_type.Hero;
 
@@ -11,26 +12,28 @@ import java.util.List;
 import java.util.Random;
 
 public class Warrior extends Hero {
-    public Warrior(String name) {
-        super(name);
+
+    public Warrior(String name, int health) {
+        super(name, health);
     }
 
     @Override
     public void attackEnemy(Enemy enemy) {
         String className = this.getClass().getSimpleName() + " ";
-        System.out.println(className + getName() + " has attacked the enemy");
-        enemy.takeDamage(new Random().nextInt(100));
+        int min = 30;
+        int max = 90;
+        int diff = max - min;
+        new Tools().amountOfDamage(enemy, className, min, diff);
     }
 
     @Override
     public void attackEnemies(List<Enemy> enemies, Hero hero) {
-        for (Enemy enemy : enemies) {
-            System.out.println("You attacked " + enemy.getClass().getSimpleName() + "!!");
-            enemy.takeDamage(new Random().nextInt(100));
-            System.out.println(enemy.isAlive() ? enemy.getClass().getSimpleName() +
-                    " is still alive" : enemy.getClass().getSimpleName() + " is dead");
-        }
+        int min = 60;
+        int max = 125;
+        double chance = 1.5;
+        new Tools().attackEachEnemy(enemies, min, max, hero, chance);
     }
+
 
     @Override
     public void takeDamage(int damage) {

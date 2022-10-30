@@ -6,7 +6,9 @@ package com.khomsi.softServe.homework4;
 
 import com.khomsi.softServe.homework4.character_type.Enemy;
 import com.khomsi.softServe.homework4.character_type.Hero;
-import com.khomsi.softServe.homework4.enemies.TestMob;
+import com.khomsi.softServe.homework4.enemies.Goblin;
+import com.khomsi.softServe.homework4.enemies.Golem;
+import com.khomsi.softServe.homework4.enemies.Vampire;
 import com.khomsi.softServe.homework4.enemies.Zombie;
 import com.khomsi.softServe.homework4.heroes.Archer;
 import com.khomsi.softServe.homework4.heroes.Mage;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class GameTools {
+public class GameLogic {
     private static final Scanner scanner = new Scanner(System.in);
     private static boolean gameIsRunning;
 
@@ -39,8 +41,10 @@ public class GameTools {
 
     private void loopGame(Hero hero) {
         List<Enemy> enemyList = new ArrayList<>();
-        enemyList.add(new Zombie(120));
-        enemyList.add(new TestMob(100));
+        enemyList.add(new Zombie(150));
+        enemyList.add(new Goblin(110));
+        enemyList.add(new Golem(350));
+        enemyList.add(new Vampire(140));
 
         while (gameIsRunning) {
             printMenu();
@@ -52,7 +56,8 @@ public class GameTools {
     }
 
     private void battleStarts(List<Enemy> enemies, Hero hero) {
-        List<Enemy> amountOfEnemies = getRandomAmountOfEnemies(enemies, 2);
+        int totalEnemies = new Random().nextInt(enemies.size() + 1);
+        List<Enemy> amountOfEnemies = getRandomAmountOfEnemies(enemies, totalEnemies);
         String heroInfo = hero.getClass().getSimpleName() + " " + hero.getName();
 
         while (true) {
@@ -65,7 +70,7 @@ public class GameTools {
             int input = readInt("-->", 2);
             if (input == 1) {
                 cleanConsole();
-                printTitle("BATTLE STARTS!!!");
+                System.out.println("\nBATTLE!!!\n");
                 hero.attackEnemies(amountOfEnemies, hero);
                 if (!checkIfEnemiesIsDead(amountOfEnemies)) {
                     cleanConsole();
@@ -74,8 +79,8 @@ public class GameTools {
                     gameIsRunning = false;
                     break;
                 }
-                printSeparator(20);
-                System.out.println("The enemy(enemies) attacked you!");
+                printSeparator(30);
+                System.out.println("ENEMIES TURN!!!");
                 for (Enemy enemy : amountOfEnemies) {
                     enemy.attackHero(hero);
                 }
@@ -92,7 +97,7 @@ public class GameTools {
                     break;
                 } else {
                     printTitle("You didn't run away!\nYou got damage....");
-                    hero.takeDamage(new Random().nextInt(20));
+                    hero.takeDamage(new Random().nextInt(30));
                     pressToContinue();
                     if (heroIsDead(hero, heroInfo)) break;
                 }
@@ -128,9 +133,9 @@ public class GameTools {
 
         chooseCharacterText();
         int input = readInt("-->", 3);
-        if (input == 1) hero = new Mage(name);
-        else if (input == 2) hero = new Warrior(name);
-        else if (input == 3) hero = new Archer(name);
+        if (input == 1) hero = new Mage(name, 160);
+        else if (input == 2) hero = new Warrior(name, 300);
+        else if (input == 3) hero = new Archer(name, 200);
 
         System.out.println("Your hero is: " + hero.getClass().getSimpleName());
         return hero;
@@ -139,7 +144,7 @@ public class GameTools {
     private boolean heroIsDead(Hero hero, String heroInfo) {
         if (!hero.isAlive()) {
             cleanConsole();
-            printTitle(heroInfo + " died...\n");
+            System.err.println(heroInfo + " died....");
             printTitle("Try again next time!");
             gameIsRunning = false;
             return true;
@@ -164,27 +169,24 @@ public class GameTools {
                         + " is dead.");
             } else if (enemy.getHealth() > 0)
                 printTitle(enemy.getClass().getSimpleName() + "\nHP: " + enemy.getHealth());
+            System.out.println();
         }
     }
 
 
-    //    FIXME
     public List<Enemy> getRandomAmountOfEnemies(List<Enemy> list, int totalItems) {
         Random rand = new Random();
-
         // create a temporary list for storing
         // selected enemies
+        if (totalItems == 0) totalItems = 1;
         List<Enemy> newList = new ArrayList<>();
         for (int i = 0; i < totalItems; i++) {
 
-            // take a random index between 0 to size
-            // of given List
             int randomIndex = rand.nextInt(list.size());
 
-            // add element in temporary list
             newList.add(list.get(randomIndex));
-////            FIXME
-//            // Remove selected element from original list
+
+            // Remove selected element from original list to avoid duplicates
             list.remove(randomIndex);
         }
         return newList;
@@ -208,7 +210,7 @@ public class GameTools {
     private void checkHeroStats(Hero hero) {
         cleanConsole();
         printTitle("HERO STATS");
-        System.out.println(hero.getName() + "\t HP: " + hero.getHealth());
+        System.out.println(hero.getName() + "\tHP: " + hero.getHealth());
         printSeparator(30);
         System.out.println("You choosed " + hero.getClass().getSimpleName() + " character!");
         printSeparator(30);
@@ -250,9 +252,9 @@ public class GameTools {
     }
 
     public void printTitle(String title) {
-        printSeparator(20);
+        printSeparator(30);
         System.out.println(title);
-        printSeparator(20);
+        printSeparator(30);
     }
 
     public void cleanConsole() {
@@ -268,7 +270,7 @@ public class GameTools {
     }
 
     public void pressToContinue() {
-        System.out.println("Press \"ENTER\" to continue...");
+        System.err.println("Press \"ENTER\" to continue...");
         try {
             System.in.read();
             scanner.nextLine();

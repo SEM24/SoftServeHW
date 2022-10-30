@@ -10,9 +10,9 @@ public abstract class Hero implements Mortal {
     String name;
     int health;
 
-    protected Hero(String name) {
+    public Hero(String name, int health) {
         this.name = name;
-        this.health = 400;
+        this.health = health;
     }
 
     public void setHealth(int health) {

@@ -7,7 +7,7 @@ package com.khomsi.softServe.homework4.character_type;
 public abstract class Enemy implements Mortal {
     int health;
 
-    public Enemy(int health) {
+    protected Enemy(int health) {
         this.health = health;
     }
 

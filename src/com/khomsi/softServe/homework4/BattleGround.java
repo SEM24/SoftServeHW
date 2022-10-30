@@ -11,17 +11,13 @@ public class BattleGround {
 
 
     public static void main(String[] args) {
-        new GameTools().startGame();
+        new GameLogic().startGame();
 //        new BattleGround().startBattle();
     }
 
 
     private void startBattle() {
-//        TODO
-//        Different enemies = different hp/damage
-//        Different heroes = different hp and damage (someone damages powerful, but has a low hp)
-//        Make the game more balanced
-        Mage mage = new Mage("Vlad");
+        Mage mage = new Mage("Vlad", 130);
         Zombie zombie = new Zombie(100);
 
         mage.attackEnemy(zombie);

@@ -8,9 +8,8 @@ import com.khomsi.softServe.homework4.Tools;
 import com.khomsi.softServe.homework4.character_type.Enemy;
 import com.khomsi.softServe.homework4.character_type.Hero;
 
-public class Zombie extends Enemy {
-
-    public Zombie(int health) {
+public class Golem extends Enemy {
+    public Golem(int health) {
         super(health);
     }
 
@@ -26,23 +25,24 @@ public class Zombie extends Enemy {
 
     @Override
     public void takeDamage(int damage) {
-        setHealth(getHealth() - damage);
-        System.out.println(getHealth() <= 0 ? "Enemy hp: 0" : "Enemy hp: " + getHealth());
-        if (getHealth() <= 0 && Math.random() * 10 + 1 <= 3.5) {
-            setHealth((int) (Math.random() * 70));
-            System.out.println("Oh no! Zombie resurrected and has " + getHealth() + " HP!!");
+//        Chance to avoid damage and get heal
+        double changeToDeflect = 2.5;
+        if (Math.random() * 10 + 1 <= changeToDeflect) {
+            setHealth(getHealth() + 10);
+        } else {
+            setHealth(getHealth() - damage);
         }
+        System.out.println(getHealth() <= 0 ? "Enemy hp: 0" : "Enemy hp: " + getHealth());
     }
 
     @Override
     public void attackHero(Hero hero) {
         String className = this.getClass().getSimpleName() + " ";
-        double chance = 1.5;
-        int criticalDamage = 120;
-        int damage = 70;
+        double chance = 2.5;
+        int criticalDamage = 105;
+        int damage = 90;
         new Tools().showEnemyAttack(hero, className, chance, criticalDamage, damage);
     }
-
 
     @Override
     public boolean isAlive() {
