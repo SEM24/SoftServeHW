@@ -5,15 +5,21 @@
 package com.khomsi.softServe.homework4Ex;
 
 import com.khomsi.softServe.homework4Ex.enemies.Enemy;
-import com.khomsi.softServe.homework4Ex.heroes.Player;
+import com.khomsi.softServe.homework4Ex.heroes.Archer;
+import com.khomsi.softServe.homework4Ex.heroes.Hero;
+import com.khomsi.softServe.homework4Ex.heroes.Mage;
+import com.khomsi.softServe.homework4Ex.heroes.Warrior;
 import com.khomsi.softServe.homework4Ex.tools.Story;
 import com.khomsi.softServe.homework4Ex.tools.Tools;
+
+import java.util.Random;
 
 public class GameLogic {
     //TODO make battle between one hero and different enemies, add buffs to enemy, like zombie
     static Tools tools = new Tools();
-    static Player player;
+    static Hero hero;
     static Story story = new Story();
+    static Random random = new Random();
     static boolean runGame;
     //Events that can be happened during the trip
     static String[] randomEvents = {"Battle", "Battle", "Rest", "Battle", "Rest", "Shop"};
@@ -22,8 +28,9 @@ public class GameLogic {
     static String[] enemies = {"Draugr", "Falmer", "Draugr Death Overlord",
             "Wolf", "Necromancer", "Skeleton"};
 
+
     static int place = 0, act = 1;
-    static String[] places = {"Whiterun", "Dawnstar", "Falkreath",
+    static String[] places = {"Whiterun", "High Hrothgar", "Sovngrade",
             "Markarth", "Morthal", "Riften", "Sovngarde"};
 
 
@@ -32,9 +39,9 @@ public class GameLogic {
         tools.clearConsole();
         tools.printSeparator(45);
         tools.printSeparator(30);
-        System.out.println("SKYRIM RPG GAME");
+        System.out.println("\tSKYRIM RPG GAME");
         tools.printSeparator(30);
-        tools.printSeparator(40);
+        tools.printSeparator(45);
         tools.pressToContinue();
 
         //getting the player name
@@ -44,11 +51,39 @@ public class GameLogic {
 
         story.storyInto();
 
-        player = new Player(userName);
+        hero = chooseCharacter(userName);
         story.firstActInto();
         //start main game loop
         runGame = true;
         loopGame();
+    }
+
+    private Hero chooseCharacter(String name) {
+        tools.chooseCharacterText();
+        int input = tools.readInt("-->", 3);
+
+        int randomHp;
+        int randomGold;
+        if (input == 1) {
+            randomHp = random.nextInt(100, 150);
+            randomGold = random.nextInt(3, 13);
+
+            hero = new Warrior(name, randomHp, 10, 0, 0,
+                    randomGold, 2, 0);
+        } else if (input == 2) {
+            randomHp = random.nextInt(90, 115);
+            randomGold = random.nextInt(2, 14);
+
+            hero = new Mage(name, randomHp, 15, 0, 0,
+                    randomGold, 0, 2);
+        } else if (input == 3) {
+            randomHp = random.nextInt(100, 130);
+            randomGold = random.nextInt(4, 15);
+
+            hero = new Archer(name, randomHp, 11, 0, 0,
+                    randomGold, 1, 1);
+        }
+        return hero;
     }
 
     private void loopGame() {
@@ -66,21 +101,23 @@ public class GameLogic {
 
     private void characterInfo() {
         tools.clearConsole();
-        tools.printHeading("DRAGONBORN STATS");
-        System.out.println(player.name + "\tHP: " + player.hp + "/" + player.maxHp);
+        tools.printHeading("\tDRAGONBORN STATS");
+        System.out.println(hero.name + "\tHP: " + hero.hp + "/" + hero.maxHp);
         tools.printSeparator(30);
-        System.out.println("XP: " + player.xp + "\tGold: " + player.gold);
+        System.out.println("Hero type: " + hero.getClass().getSimpleName());
         tools.printSeparator(30);
-        System.out.println("Potions left: " + player.pots);
+        System.out.println("XP: " + hero.xp + "\tGold: " + hero.gold);
         tools.printSeparator(30);
-        if (player.numAttackBuffs > 0) {
+        System.out.println("Potions left: " + hero.pots);
+        tools.printSeparator(30);
+        if (hero.numAttackBuffs > 0) {
             System.out.println("Attack buffs: "
-                    + player.attackBuffs[player.numAttackBuffs - 1]);
+                    + hero.attackBuffs[hero.numAttackBuffs - 1]);
             tools.printSeparator(20);
         }
-        if (player.numDefendBuffs > 0) {
+        if (hero.numDefendBuffs > 0) {
             System.out.println("Defending buffs: " +
-                    player.defendBuffs[player.numDefendBuffs - 1]);
+                    hero.defendBuffs[hero.numDefendBuffs - 1]);
             tools.printSeparator(20);
         }
         tools.pressToContinue();
@@ -104,16 +141,17 @@ public class GameLogic {
     private void shop() {
         tools.clearConsole();
         tools.printHeading("You found a shop in the city!\nHere's the offers:");
-        int price = (int) (Math.random() * (10 + player.pots * 3) + 10 + player.pots);
+        int price = (int) (Math.random() * (10 + hero.pots * 3) + 10 + hero.pots);
         System.out.println("Magic potion: " + price + " gold");
+        System.out.println("Hero's HP: : " + hero.hp + "\tHero's gold: " + hero.gold);
         tools.printSeparator(30);
         System.out.println("Do you want to buy one?\n 1 - YES, YES, YES!\n2 - No, not this time");
         int input = tools.readInt("-->", 2);
         if (input == 1) {
-            if (player.gold >= price) {
+            if (hero.gold >= price) {
                 tools.printHeading("You bought magic potion for " + price + " gold!");
-                player.pots++;
-                player.gold -= price;
+                hero.pots++;
+                hero.gold -= price;
             } else
                 tools.printHeading("You don't have enough money! Try again later!");
             tools.pressToContinue();
@@ -122,20 +160,20 @@ public class GameLogic {
 
     private void takeRest() {
         tools.clearConsole();
-        if (player.restLeft >= 1) {
-            tools.printHeading("Do you want to rest? (" + player.restLeft + " rest(s) left).");
+        if (hero.restLeft >= 1) {
+            tools.printHeading("Do you want to rest? (" + hero.restLeft + " rest(s) left).");
             System.out.println("1 - YES, YES ,YES!\n2 - No, maybe next time.");
             int input = tools.readInt("-->", 2);
             if (input == 1) {
                 tools.clearConsole();
-                if (player.hp < player.maxHp) {
-                    int hpRest = (int) (Math.random() * (player.xp / 4 + 1) + 10);
-                    player.hp += hpRest;
-                    if (player.hp > player.maxHp)
-                        player.hp = player.maxHp;
+                if (hero.hp < hero.maxHp) {
+                    int hpRest = (int) (Math.random() * (hero.xp / 4 + 1) + 10);
+                    hero.hp += hpRest;
+                    if (hero.hp > hero.maxHp)
+                        hero.hp = hero.maxHp;
                     System.out.println("You took a rest and restored " + hpRest + " health!");
-                    System.out.println("Now you have " + player.hp + "|" + player.maxHp + " health!");
-                    player.restLeft--;
+                    System.out.println("Now you have " + hero.hp + "|" + hero.maxHp + " health!");
+                    hero.restLeft--;
                 } else
                     System.out.println("You have a full HP. You don't need to restore it!");
                 tools.pressToContinue();
@@ -145,10 +183,10 @@ public class GameLogic {
 
     private int increasedHeroAttack() {
         //save calculated attack
-        int newDamage = player.attack();
-        if (player.numAttackBuffs != 0) {
+        int newDamage = hero.attack();
+        if (hero.numAttackBuffs != 0) {
             //Change the attack damage every time hero choose new skill
-            switch (player.attackBuffs[player.numAttackBuffs - 1]) {
+            switch (hero.attackBuffs[hero.numAttackBuffs - 1]) {
                 case "Strength" -> newDamage += 4;
                 case "Power" -> newDamage += 5;
                 case "Might" -> newDamage += 7;
@@ -160,10 +198,10 @@ public class GameLogic {
 
     private int increasedHeroDefend() {
         //save calculated attack
-        int newDefend = player.defend();
+        int newDefend = hero.defend();
         //Change the attack damage every time hero choose new skill
-        if (player.numDefendBuffs != 0) {
-            switch (player.defendBuffs[player.numDefendBuffs - 1]) {
+        if (hero.numDefendBuffs != 0) {
+            switch (hero.defendBuffs[hero.numDefendBuffs - 1]) {
                 case "Heavy Bones", "Stoneskin" -> newDefend += 1;
                 case "Scale Armor" -> newDefend += 2;
                 case "Holy Aura" -> newDefend += 4;
@@ -177,7 +215,7 @@ public class GameLogic {
         tools.printHeading("You reached the evil enemy. Your fight starts!!!");
         tools.pressToContinue();
         //create enemy with random name
-        battle(new Enemy(enemies[(int) (Math.random() * enemies.length)], player.xp));
+        battle(new Enemy(enemies[(int) (Math.random() * enemies.length)], hero.xp));
     }
 
     //Main battle method
@@ -185,7 +223,7 @@ public class GameLogic {
         while (true) {
             tools.clearConsole();
             tools.printHeading(enemy.name + "\nHP: " + enemy.hp + "|" + enemy.maxHp);
-            tools.printHeading(player.name + "\nHP: " + player.hp + "|" + player.maxHp);
+            tools.printHeading(hero.name + "\nHP: " + hero.hp + "|" + hero.maxHp);
             System.out.println("Choose action:");
             tools.printSeparator(20);
             System.out.println("1 - Fight\n2 - Use Potion\n3 - Run away");
@@ -201,33 +239,33 @@ public class GameLogic {
                 }
                 if (dmg < 0)
                     dmg = 0;
-                player.hp -= dmgTook;
+                hero.hp -= dmgTook;
                 enemy.hp -= dmg;
 
                 tools.clearConsole();
-                tools.printHeading("BATTLE");
+                tools.printHeading("\tBATTLE");
                 System.out.println("You did " + dmg + " damage to the " + enemy.name + "!");
                 tools.printSeparator(15);
                 System.out.println("The " + enemy.name + " did " + dmgTook + " damage to you!");
                 tools.pressToContinue();
                 //check if battle is over
                 //check if player is dead or no
-                if (player.hp <= 0) {
+                if (hero.hp <= 0) {
                     heroDied();
                     break;
                 } else if (enemy.hp <= 0) {
                     tools.clearConsole();
                     tools.printHeading("You defeated the " + enemy.name + "!");
-                    player.xp += enemy.xp;
+                    hero.xp += enemy.xp;
                     System.out.println("You earned " + enemy.xp + " XP!");
                     boolean newRest = (Math.random() * 5 + 1 <= 3.25);
                     int goldEarned = (int) (Math.random() * enemy.xp);
                     if (newRest) {
-                        player.restLeft++;
+                        hero.restLeft++;
                         System.out.println("You got extra rest!");
                     }
                     if (goldEarned > 0) {
-                        player.gold += goldEarned;
+                        hero.gold += goldEarned;
                         System.out.println("You got " + goldEarned
                                 + " gold in your pocket from " + enemy.name + "!");
                     }
@@ -236,14 +274,14 @@ public class GameLogic {
                 }
             } else if (input == 2) {
                 tools.clearConsole();
-                if (player.pots > 0 && player.hp < player.maxHp) {
-                    tools.printHeading("Drink the potion? (" + player.pots + " left).");
+                if (hero.pots > 0 && hero.hp < hero.maxHp) {
+                    tools.printHeading("Drink the potion? (" + hero.pots + " left).");
                     System.out.println("1 - YES, YES, YES!\n 2 - No, not this time...");
                     input = tools.readInt("-->", 2);
                     if (input == 1) {
-                        player.hp = player.maxHp;
+                        hero.hp = hero.maxHp;
                         tools.clearConsole();
-                        tools.printHeading("You drank potion, your HP was restored! \nHP: " + player.hp);
+                        tools.printHeading("You drank potion, your HP was restored! \nHP: " + hero.hp);
                         tools.pressToContinue();
                     }
                 } else {
@@ -263,7 +301,7 @@ public class GameLogic {
                         int dmgTook = enemy.attack();
                         System.out.println("You took " + dmgTook + " damage from " + enemy.name + "!");
                         tools.pressToContinue();
-                        if (player.hp <= 0) {
+                        if (hero.hp <= 0) {
                             heroDied();
                         }
                     }
@@ -278,79 +316,79 @@ public class GameLogic {
     private void heroDied() {
         tools.clearConsole();
         tools.printHeading("You died....");
-        tools.printHeading("You earned " + player.xp +
+        tools.printHeading("You earned " + hero.xp +
                 " XP on your trip. Try to earn more XP next time!!");
         System.out.println("Thanks for playing!!");
         runGame = false;
     }
 
+    //update enemies for the next stage
+    private String[] randomEnemies() {
+        String[] newEnemies = {"Bandit Marauder", "Nightingale Sentinel", "Pyromancer",
+                "Curalmil", "Draugr", "Vampire Nightstalker"};
+        String[] result = new String[enemies.length];
+        for (int i = 0; i < enemies.length; i++) {
+            result[i] = newEnemies[(int) (Math.random() * newEnemies.length)];
+        }
+        return result;
+    }
+
+    //update events for the next stage
+    private String[] randomEvents() {
+        String[] newEvents = {"Battle", "Battle", "Rest", "Battle",
+                "Battle", "Shop", "Battle"};
+        String[] result = new String[randomEvents.length];
+        for (int i = 0; i < enemies.length; i++) {
+            result[i] = newEvents[(int) (Math.random() * newEvents.length)];
+        }
+        return result;
+    }
+
     //Method that changes acts, depends on xp(experience) of player
     private void checkAct() {
-        if (player.xp >= 20 && act == 1) {
+        if (hero.xp >= 20 && act == 1) {
             act = 2;
             place = 1;
             //end of the first act
             story.firstActOutro();
             //level up
-            player.chooseSkills();
+            hero.chooseSkills();
             story.secondActInto();
 
-            //TODO Generate new random enemies for next stage with random generator to avoid hardcode
-            enemies[0] = "Mega Skeleton";
-            enemies[1] = "Vampire1";
-            enemies[2] = "Vampire2";
-            enemies[3] = "Vampire3";
-            enemies[4] = "Vampire4";
-            enemies[5] = "Vampire5";
+            enemies = randomEnemies();
 
-            randomEvents[0] = "Battle";
-            randomEvents[1] = "Battle";
-            randomEvents[2] = "Battle";
-            randomEvents[3] = "Battle";
-            randomEvents[4] = "Shop";
-        } else if (player.xp >= 60 && act == 2) {
+            randomEvents = randomEvents();
+        } else if (hero.xp >= 60 && act == 2) {
             act = 3;
             place = 2;
             //end of the second act
             story.secondActOutro();
             //level up
-            player.chooseSkills();
+            hero.chooseSkills();
             story.thirdActInto();
-            //TODO Generate new random enemies for next stage with random generator to avoid hardcode
-            enemies[0] = "Mega Skeleton2";
-            enemies[1] = "Vampire12";
-            enemies[2] = "Vampire22";
-            enemies[3] = "Vampire32";
-            enemies[4] = "Vampire42";
-            enemies[5] = "Vampire52";
+            enemies = randomEnemies();
 
-            randomEvents[0] = "Battle";
-            randomEvents[1] = "Battle";
-            randomEvents[2] = "Battle";
-            randomEvents[3] = "Rest";
-            randomEvents[4] = "Shop";
+            randomEvents = randomEvents();
             //restore the hp of player
-            player.hp = player.maxHp;
-        } else if (player.xp >= 120 && act == 3) {
+            hero.hp = hero.maxHp;
+        } else if (hero.xp >= 120 && act == 3) {
             act = 4;
             place = 3;
             //end of the third act
             story.thirdActOutro();
             //level up
-            player.chooseSkills();
+            hero.chooseSkills();
             story.fourthActInto();
             //restore the hp of player
-            player.hp = player.maxHp;
+            hero.hp = hero.maxHp;
             //final battle(boss)
             finalBattle();
         }
     }
 
-
     private void finalBattle() {
-        //TODO change the name of enemy and his stats for epic battle
-        battle(new Enemy("THE LAST BOSS", 300));
-        story.endStory(player);
+        battle(new Enemy("Alduin", 250, 300));
+        story.endStory(hero);
         runGame = false;
     }
 

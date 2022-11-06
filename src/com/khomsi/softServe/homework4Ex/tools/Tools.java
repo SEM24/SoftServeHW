@@ -42,9 +42,9 @@ public class Tools {
 
     //method to print a heading
     public void printHeading(String title) {
-        printSeparator(30);
+        printSeparator(35);
         System.out.println(title);
-        printSeparator(30);
+        printSeparator(35);
     }
 
     //method to stop the game until user press enter
@@ -71,7 +71,7 @@ public class Tools {
         String name;
         do {
             clearConsole();
-            printHeading("Print your name: ");
+            printHeading("Print your name");
             name = scanner.next();
             while (!isName(name)) {
                 System.err.println("Please enter a valid name!");
@@ -89,4 +89,15 @@ public class Tools {
         return name;
     }
 
+    public void chooseCharacterText() {
+        String[] heroes = {"Choose character:",
+                "1 - Warrior",
+                "2 - Mage",
+                "3 - Archer",
+        };
+        for (String option : heroes) {
+            System.out.println(option);
+        }
+        System.out.print("Choose your option : ");
+    }
 }

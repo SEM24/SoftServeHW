@@ -4,7 +4,7 @@
 
 
 
-package com.khomsi.softServe.homework4Ex.tools;
+package com.khomsi.softServe.homework4Ex.enemies;
 
 public abstract class Character {
     //Variables
