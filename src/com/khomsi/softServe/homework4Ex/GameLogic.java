@@ -32,7 +32,7 @@ public class GameLogic {
         tools.clearConsole();
         tools.printSeparator(45);
         tools.printSeparator(30);
-        System.out.println("The typical RPG game");
+        System.out.println("SKYRIM RPG GAME");
         tools.printSeparator(30);
         tools.printSeparator(40);
         tools.pressToContinue();
