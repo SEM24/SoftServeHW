@@ -146,12 +146,14 @@ public class GameLogic {
     private int increasedHeroAttack() {
         //save calculated attack
         int newDamage = player.attack();
-        //Change the attack damage every time hero choose new skill
-        switch (player.attackBuffs[player.numAttackBuffs - 1]) {
-            case "Strength" -> newDamage += 5;
-            case "Power" -> newDamage += 6;
-            case "Might" -> newDamage += 8;
-            case "Godlike Strength" -> newDamage += 11;
+        if (player.numAttackBuffs != 0) {
+            //Change the attack damage every time hero choose new skill
+            switch (player.attackBuffs[player.numAttackBuffs - 1]) {
+                case "Strength" -> newDamage += 4;
+                case "Power" -> newDamage += 5;
+                case "Might" -> newDamage += 7;
+                case "Godlike Strength" -> newDamage += 11;
+            }
         }
         return newDamage;
     }
@@ -160,11 +162,12 @@ public class GameLogic {
         //save calculated attack
         int newDefend = player.defend();
         //Change the attack damage every time hero choose new skill
-        switch (player.defendBuffs[player.numDefendBuffs - 1]) {
-            case "Heavy Bones" -> newDefend += 1;
-            case "Stoneskin" -> newDefend += 3;
-            case "Scale Armor" -> newDefend += 4;
-            case "Holy Aura" -> newDefend += 10;
+        if (player.numDefendBuffs != 0) {
+            switch (player.defendBuffs[player.numDefendBuffs - 1]) {
+                case "Heavy Bones", "Stoneskin" -> newDefend += 1;
+                case "Scale Armor" -> newDefend += 2;
+                case "Holy Aura" -> newDefend += 4;
+            }
         }
         return newDefend;
     }

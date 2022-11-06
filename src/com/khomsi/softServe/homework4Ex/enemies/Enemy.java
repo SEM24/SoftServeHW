@@ -12,7 +12,7 @@ public class Enemy extends Character {
     int heroXp;
 
     public Enemy(String name, int heroXp) {
-        //generate random xp and HP, todo change the HP for each enemy
+        //TODO generate random xp and HP, change the HP for each enemy
         super(name, (int) (Math.random() * heroXp + heroXp / 3 + 5),
                 (int) (Math.random() * (heroXp / 4 + 2) + 1));
         //assign var
@@ -21,7 +21,7 @@ public class Enemy extends Character {
 
     @Override
     public int attack() {
-        return (int) (Math.random() * (heroXp / 4 + 1) + xp / 4 + 3);
+        return (int) (Math.random() * (heroXp / 4 + 1) + xp / 4 + 10);
     }
 
     @Override
