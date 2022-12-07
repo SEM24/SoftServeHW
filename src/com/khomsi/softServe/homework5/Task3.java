@@ -25,7 +25,7 @@ public class Task3 {
 
     private void mainMethod(Map<String, Integer> map) {
         int result = map.entrySet().stream()
-                .filter(e -> e.getKey().length() >= 7)
+                .filter(e -> e.getKey().length() <= 7)
                 .map(Map.Entry::getValue).mapToInt(e -> e).sum();
 
         System.out.println("Sum: " + result);
@@ -35,7 +35,7 @@ public class Task3 {
         int sum = 0;
         Set<Map.Entry<String, Integer>> s = map.entrySet();
         for (Map.Entry<String, Integer> it : s) {
-            if (it.getKey().length() >= 7) {
+            if (it.getKey().length() <= 7) {
                 sum += it.getValue();
             }
         }
