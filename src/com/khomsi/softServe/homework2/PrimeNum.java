@@ -47,4 +47,5 @@ public class PrimeNum {
             scanner.nextLine();
         }
     }
+
 }

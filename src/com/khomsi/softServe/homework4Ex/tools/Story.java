@@ -13,7 +13,6 @@ import com.khomsi.softServe.homework4Ex.heroes.Hero;
 public class Story {
     static Tools tools = new Tools();
 
-    //TODO Add skyrim plot
     public void storyInto() {
         tools.clearConsole();
         tools.printSeparator(30);
